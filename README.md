@@ -1,13 +1,16 @@
 # bak
-usage: bak.py [-h] [-a APPEND] [-d] source
+```
+usage: bak [-h] [-a APPEND] [-d] [-f] Source
 
-Backup a file, defaults to same path and .bak
+Backup a file, defaults to same path and .bak. overwrites backup if exists
 
 positional arguments:
-  source                file to backup
+  Source                file to backup
 
 optional arguments:
   -h, --help            show this help message and exit
   -a APPEND, --append APPEND
                         characters to append to source file instead of .bak
   -d, --date            add the date .YYYYMMDD to the end of the file
+  -f, --force           overwrite backup if exists
+```
