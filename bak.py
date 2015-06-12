@@ -6,9 +6,7 @@ import shutil
 import time
 import os
 
-parser = argparse.ArgumentParser(description='Backup a file, defaults to same path and .bak. \
-                                              overwrites backup if exists')
-
+parser = argparse.ArgumentParser(description='Backup a file, defaults to same path and .bak')
 parser.add_argument('-a', '--append', help='characters to append to source file instead of .bak', type=str)
 parser.add_argument('-d', '--date', action='store_true', help='add the date .YYYYMMDD to the end of the file')
 parser.add_argument('-f', '--force', action='store_true', help='overwrite backup if exists')

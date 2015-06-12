@@ -2,7 +2,7 @@
 ```
 usage: bak [-h] [-a APPEND] [-d] [-f] Source
 
-Backup a file, defaults to same path and .bak. overwrites backup if exists
+Backup a file, defaults to same path and .bak
 
 positional arguments:
   Source                file to backup
