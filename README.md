@@ -14,3 +14,9 @@ optional arguments:
   -d, --date            add the date .YYYYMMDD to the end of the file
   -f, --force           overwrite backup if exists
 ```
+## RPM
+to create a RPM, run
+
+python setup.py bdist --formats=rpm
+
+then yum install the result in the dist/ directory it creates
