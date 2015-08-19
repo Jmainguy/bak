@@ -20,3 +20,6 @@ to create a RPM, run
 python setup.py bdist --formats=rpm
 
 then yum install the result in the dist/ directory it creates
+
+### Slides
+http://redhat.slides.com/jmainguy/bak#
