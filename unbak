@@ -7,12 +7,8 @@ import time
 import os
 import xattr
 
-parser = argparse.ArgumentParser(description='Backup a file, defaults to same path and .bak')
-parser.add_argument('-a', '--append', help='characters to append to source file instead of .bak', type=str)
-parser.add_argument('-d', '--date', action='store_true', help='add the date .YYYYMMDD to the end of the file')
-parser.add_argument('-f', '--force', action='store_true', help='overwrite backup if exists')
-parser.add_argument('-u', '--unbak', action='store_true', help='Unbak a file to its original location, force overwrite (if your filesystem supports extended file attributes)')
-parser.add_argument('Source', help='file to backup')
+parser = argparse.ArgumentParser(description='Restore a file created by bak, this is the same as bak -u')
+parser.add_argument('Source', help='bak file to restore')
 args = parser.parse_args()
 duplicate = int(1)
 
@@ -54,50 +50,17 @@ def extrattr(source, setget, dest):
     return dest, msg
 
 def main(args):
-    append = args.append
-    date = args.date
     source = args.Source
-    force = args.force
-    unbak = args.unbak
     arglist = list()
 
 
     if source[-1] == '/':
         source = source[:-1]
 
-    # Unbak the file if called upon, skip all other work
-    if unbak:
-        dest, msg = extrattr(source, "get", '')
-        if not msg == '':
-            print msg
-            sys.exit(1)
-        if os.path.isfile(source):
-            shutil.copy(source, dest)
-        elif os.path.isdir(source):
-            if os.path.isdir(dest):
-                shutil.rmtree(dest)
-            shutil.copytree(source, dest)
-        else:
-            print "%s does not exist" % source
-            sys.exit(1)
-        sys.exit(0)
-
-    arglist.append(source)
-
-    if not append:
-        append = 'bak'
-
-    arglist.append(append)
-
-    if date:
-        date = time.strftime('%Y%m%d')
-        arglist.append(date)
-    
-    dest = '.'.join(arglist)
-
-    if not force:
-        dest = checkdest(dest, duplicate)
-
+    dest, msg = extrattr(source, "get", '')
+    if not msg == '':
+        print msg
+        sys.exit(1)
     if os.path.isfile(source):
         shutil.copy(source, dest)
     elif os.path.isdir(source):
@@ -107,7 +70,6 @@ def main(args):
     else:
         print "%s does not exist" % source
         sys.exit(1)
-
-    extrattr(dest, "set", os.path.abspath(source))
+    sys.exit(0)
 
 main(args)
