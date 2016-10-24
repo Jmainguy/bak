@@ -31,7 +31,9 @@ optional arguments:
 ## RPM
 to create a RPM, run
 
+```
 make rpm
+```
 
 then yum install the result in the dist/ directory it creates
 note this requires rpm-build installed on the host building the rpm and pyxattr installed on the target.
