@@ -31,9 +31,10 @@ optional arguments:
 ## RPM
 to create a RPM, run
 
-python setup.py bdist --formats=rpm
+make rpm
 
 then yum install the result in the dist/ directory it creates
+note this requires rpm-build installed on the host building the rpm and pyxattr installed on the target.
 
 ### unbak, bak -u
 bak -u allows you to restore a file backed up using bak. 
