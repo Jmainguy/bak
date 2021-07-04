@@ -5,7 +5,6 @@ import argparse
 import shutil
 import time
 import os
-import xattr
 
 parser = argparse.ArgumentParser(description='Backup a file, defaults to same path and .bak')
 parser.add_argument('-a', '--append', help='characters to append to source file instead of .bak', type=str)
@@ -29,7 +28,7 @@ def extrattr(source, setget, dest):
     msg = ''
     if setget == "set":
         try:
-            xattr.setxattr(source, "user.bak", dest)
+            os.setxattr(source, "user.bak", bytes(dest, 'utf-8'))
         except IOError as e:
             if not "Operation not supported" in e:
                 msg = e
@@ -37,7 +36,7 @@ def extrattr(source, setget, dest):
                 msg = "Unbak not supported for this file.\n %s" % e
     elif setget == "get":
         try:
-            dest = xattr.getxattr(source, "user.bak")
+            dest = os.getxattr(source, "user.bak")
         except IOError as e:
             if not "Operation not supported" in e:
                 msg = e
@@ -45,7 +44,7 @@ def extrattr(source, setget, dest):
                 msg = "Unbak not supported for this file.\n %s" % e
     else:
         try:
-            xattr.removexattr(source, "user.bak")
+            os.removexattr(source, "user.bak")
         except IOError as e:
             if not "Operation not supported" in e:
                 msg =  e
@@ -69,7 +68,7 @@ def main(args):
     if unbak:
         dest, msg = extrattr(source, "get", '')
         if not msg == '':
-            print msg
+            print(msg)
             sys.exit(1)
         if os.path.isfile(source):
             shutil.copy(source, dest)
@@ -78,7 +77,7 @@ def main(args):
                 shutil.rmtree(dest)
             shutil.copytree(source, dest)
         else:
-            print "%s does not exist" % source
+            print("%s does not exist" % source)
             sys.exit(1)
         sys.exit(0)
 
@@ -105,7 +104,7 @@ def main(args):
             shutil.rmtree(dest)
         shutil.copytree(source, dest)
     else:
-        print "%s does not exist" % source
+        print("%s does not exist" % source)
         sys.exit(1)
 
     extrattr(dest, "set", os.path.abspath(source))
