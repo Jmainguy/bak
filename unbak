@@ -1,10 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 
 import sys
 import argparse
 import shutil
 import time
 import os
+import xattr
 
 parser = argparse.ArgumentParser(description='Restore a file created by bak, this is the same as bak -u')
 parser.add_argument('Source', help='bak file to restore')
@@ -24,7 +25,7 @@ def extrattr(source, setget, dest):
     msg = ''
     if setget == "set":
         try:
-            os.setxattr(source, "user.bak", bytes(destm 'utf-8'))
+            xattr.setxattr(source, "user.bak", dest)
         except IOError as e:
             if not "Operation not supported" in e:
                 msg = e
@@ -32,7 +33,7 @@ def extrattr(source, setget, dest):
                 msg = "Unbak not supported for this file.\n %s" % e
     elif setget == "get":
         try:
-            dest = os.getxattr(source, "user.bak")
+            dest = xattr.getxattr(source, "user.bak")
         except IOError as e:
             if not "Operation not supported" in e:
                 msg = e
@@ -40,7 +41,7 @@ def extrattr(source, setget, dest):
                 msg = "Unbak not supported for this file.\n %s" % e
     else:
         try:
-            os.removexattr(source, "user.bak")
+            xattr.removexattr(source, "user.bak")
         except IOError as e:
             if not "Operation not supported" in e:
                 msg =  e
@@ -58,7 +59,7 @@ def main(args):
 
     dest, msg = extrattr(source, "get", '')
     if not msg == '':
-        print(msg)
+        print msg
         sys.exit(1)
     if os.path.isfile(source):
         shutil.copy(source, dest)
@@ -67,7 +68,7 @@ def main(args):
             shutil.rmtree(dest)
         shutil.copytree(source, dest)
     else:
-        print("%s does not exist" % source)
+        print "%s does not exist" % source
         sys.exit(1)
     sys.exit(0)
 
