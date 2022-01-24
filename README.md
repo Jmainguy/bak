@@ -33,7 +33,12 @@ optional arguments:
 Install using pip [https://pypi.org/project/bak/](https://pypi.org/project/bak/)
 
 ```/bin/bash
-pip install bak
+# See if pip is install
+python3 -m pip --version
+# Try and install it
+python3 -m ensurepip --default-pip
+# Install bak
+python3 -m pip install bak
 ```
 
 ### unbak, bak -u
