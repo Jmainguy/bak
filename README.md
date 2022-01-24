@@ -28,26 +28,25 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 ```
-## RPM
-to create a RPM, run
 
-```
-make rpm
-```
+## Install
+Install using pip [https://pypi.org/project/bak/](https://pypi.org/project/bak/)
 
-then yum install the result in the dist/ directory it creates
-note this requires rpm-build installed on the host building the rpm and pyxattr installed on the target.
+```/bin/bash
+pip install bak
+```
 
 ### unbak, bak -u
 bak -u allows you to restore a file backed up using bak. 
 
-By default bak creates metadata on the .bak file (https://en.wikipedia.org/wiki/Extended_file_attributes)
+By default bak creates metadata on the .bak file [https://en.wikipedia.org/wiki/Extended_file_attributes](https://en.wikipedia.org/wiki/Extended_file_attributes)
 
 bak would then try to restore to the path stored in the metadata, if the metadata is removed, this wont work.
 
+### Notes
 It is really easy to lose the metadata, and you need to take active measures to preserve metadata if moving/copying the backup file.
 
-http://www.lesbonscomptes.com/pages/extattrs.html
+[http://www.lesbonscomptes.com/pages/extattrs.html](http://www.lesbonscomptes.com/pages/extattrs.html])
 
 mv preserves xattrs
 cp will only preserve xattrs if given the option --preserve=xattr
